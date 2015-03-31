@@ -1,0 +1,7 @@
+Config-INI-Reader-Multiline-*
+*.tar.gz
+cover_db
+*.bak
+*.swp
+*~
+mess

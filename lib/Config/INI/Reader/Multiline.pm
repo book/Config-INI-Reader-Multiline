@@ -1,6 +1,8 @@
-package Act::INI;
+package Config::INI::Reader::Multiline;
 
 use strict;
+use warnings;
+
 use Config::INI::Reader;
 our @ISA = qw( Config::INI::Reader );
 

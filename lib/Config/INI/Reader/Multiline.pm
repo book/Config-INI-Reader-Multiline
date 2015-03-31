@@ -22,3 +22,86 @@ sub handle_unparsed_line {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Config::INI::Reader::Multiline - Parser for .ini files with continuation lines
+
+=head1 SYNOPSIS
+
+If F<act.ini> contains:
+
+    [general]
+    conferences = ye2003 fpw2004 \
+                  apw2005 fpw2005 hpw2005 ipw2005 npw2005 ye2005 \
+                  apw2006 fpw2006 ipw2006 npw2006
+    cookie_name = act
+    searchlimit = 20
+
+And your program running:
+
+    my $config = Config::INI::Reader::Multiline->read_file('act.ini');
+
+Then C<$config> contains:
+
+    {
+        general => {
+            cookie_name => 'act',
+            conferences => 'ye2003 fpw2004 apw2005 fpw2005 hpw2005 ipw2005 npw2005 ye2005 apw2006 fpw2006 ipw2006 npw2006',
+            searchlimit => '20'
+        }
+    }
+
+=head1 DESCRIPTION
+
+Config::INI::Reader::Multiline is a subclass of L<Config::INI::Reader>
+that offers support for I<continuation lines>, i.e. adding a
+C<< \<newline> >> (backslash-newline) at the end of a line to indicate the
+newline should be removed from the input stream and ignored.
+
+In this implementation, the backslash can be followed and preceded
+by whitespace, which will be ignored too (just as whitespace is trimmed
+by L<Config::INI::Reader>.
+
+=head1 METHODS
+
+All methods from L<Config::INI::Reader> are available, and none extra.
+
+=head1 OVERRIDEN METHODS
+
+The following two methods from L<Config::INI::Reader> are overriden
+(but still call for the parent version):
+
+=head2 parse_value_assignment
+
+This method skips lines ending with a C<\> and leaves them to
+L</handle_unparsed_line> for buffering. When given a "normal" line
+to process, it prepends the buffered lines, and lets the ancestor
+method deal with the resulting line.
+
+Note that whitespace at the end of continued lines and at the beginning
+of continuation lines is trimmed, and that consecutive lines are joined
+with a single space character.
+
+=head2 handle_unparsed_line
+
+This method buffers the unparsed lines that contain a C<\> at the end,
+and calls its parent class version to deal with the others.
+
+=head1 AUTHOR
+
+Philippe Bruhat (BooK), <book@cpan.org>,
+who needed to read F<act.ini> files without L<AppConfig>.
+
+=head1 COPYRIGHT
+
+Copyright 2015 Philippe Bruhat (BooK), all rights reserved.
+
+=head1 LICENSE
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut

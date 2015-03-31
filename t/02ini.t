@@ -12,6 +12,16 @@ my %test = (
             cookie_name => 'act',
         }
     },
+    't/continued.ini' => {
+        _ => {
+            klonk => 'zlonk',
+            vronk => 'zlott',
+        },
+        glurpp => {
+            zok    => 'plop kapow',
+            zapeth => 'eee_yow',
+        },
+    },
 );
 
 plan tests => scalar keys %test;

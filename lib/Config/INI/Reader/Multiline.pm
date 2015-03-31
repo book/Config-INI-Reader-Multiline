@@ -90,6 +90,11 @@ with a single space character.
 This method buffers the unparsed lines that contain a C<\> at the end,
 and calls its parent class version to deal with the others.
 
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Vincent Pit for help (on IRC, of course!) in finding a
+descriptive but not too long name for this module.
+
 =head1 AUTHOR
 
 Philippe Bruhat (BooK), <book@cpan.org>,

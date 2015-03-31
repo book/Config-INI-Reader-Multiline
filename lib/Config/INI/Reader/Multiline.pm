@@ -40,7 +40,7 @@ If F<act.ini> contains:
     cookie_name = act
     searchlimit = 20
 
-And your program running:
+And your program does:
 
     my $config = Config::INI::Reader::Multiline->read_file('act.ini');
 
@@ -57,7 +57,7 @@ Then C<$config> contains:
 =head1 DESCRIPTION
 
 Config::INI::Reader::Multiline is a subclass of L<Config::INI::Reader>
-that offers support for I<continuation lines>, i.e. adding a
+that offers support for I<line continuations>, i.e. adding a
 C<< \<newline> >> (backslash-newline) at the end of a line to indicate the
 newline should be removed from the input stream and ignored.
 
@@ -97,7 +97,7 @@ who needed to read F<act.ini> files without L<AppConfig>.
 
 =head1 COPYRIGHT
 
-Copyright 2015 Philippe Bruhat (BooK), all rights reserved.
+Copyright 2014-2015 Philippe Bruhat (BooK), all rights reserved.
 
 =head1 LICENSE
 

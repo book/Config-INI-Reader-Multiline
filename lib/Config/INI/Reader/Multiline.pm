@@ -27,7 +27,7 @@ __END__
 
 =head1 NAME
 
-Config::INI::Reader::Multiline - Parser for .ini files with continuation lines
+Config::INI::Reader::Multiline - Parser for .ini files with line continuations
 
 =head1 SYNOPSIS
 

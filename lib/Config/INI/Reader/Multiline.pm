@@ -63,7 +63,7 @@ newline should be removed from the input stream and ignored.
 
 In this implementation, the backslash can be followed and preceded
 by whitespace, which will be ignored too (just as whitespace is trimmed
-by L<Config::INI::Reader>.
+by L<Config::INI::Reader>).
 
 =head1 METHODS
 

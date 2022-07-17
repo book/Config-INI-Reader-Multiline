@@ -21,6 +21,34 @@ sub handle_unparsed_line {
     return $self->SUPER::handle_unparsed_line( $line, $handle );
 }
 
+
+sub can_ignore {
+    my ( $self, $line, $handle ) = @_;
+    if ( $line =~ /\A\s*(?:;|$)/ ) {
+
+        # If there is stuff left in buffer we need to see if it's name value pair.
+        if ( exists $self->{__buffer} ) {
+            if ( my ( $name, $value ) = $self->parse_value_assignment('') ) {
+                $self->set_value( $name, $value );
+            }
+        }
+        return 1;
+    }
+    return 0;
+
+}
+
+sub finalize {
+    my ($self) = @_;
+    return if !$self->{__buffer};
+
+    # If there is stuff left in buffer we need to see if it's name value pair.
+    if ( my ( $name, $value ) = $self->parse_value_assignment('') ) {
+        $self->set_value( $name, $value );
+    }
+
+}
+  
 1;
 
 __END__

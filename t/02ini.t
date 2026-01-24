@@ -18,8 +18,9 @@ my %test = (
             vronk => 'zlott',
         },
         glurpp => {
-            zok    => 'plop kapow',
-            zapeth => 'eee_yow',
+            zok              => 'plop kapow',
+            zapeth           => 'eee_yow',
+            '[clange] slosh' => 'ouch',
         },
     },
     't/comment.ini' => {

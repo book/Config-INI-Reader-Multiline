@@ -35,7 +35,10 @@ my %test = (
     },
     't/weird_continuations.ini' => {
         'flrbbbbb thunk' => {
-	     whap => 'z_zwap   glipp',
+            whap => 'z_zwap   glipp',
+        },
+        'blurp clank_est' => {
+            bang_eth => 'ker_sploosh',
         },
     }
 );

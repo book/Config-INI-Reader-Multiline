@@ -93,26 +93,38 @@ All methods from L<Config::INI::Reader> are available, and none extra.
 The following two methods from L<Config::INI::Reader> are overriden
 (but still call for the parent version):
 
-=head2 parse_value_assignment
+=head2 preprocess_line
 
-This method skips lines ending with a C<\> and leaves them to
-L</handle_unparsed_line> for buffering. When given a "normal" line
-to process, it prepends the buffered lines, and lets the ancestor
-method deal with the resulting line.
+Prepends the buffered lines to the current line, and
+lets the ancestor method deal with the result.
 
 Note that whitespace at the end of continued lines and at the beginning
 of continuation lines is trimmed, and that consecutive lines are joined
 with a single space character.
+
+=head2 parse_value_assignment
+
+This method skips lines ending with a C<\> and leaves them to
+L</handle_unparsed_line> for buffering.
 
 =head2 handle_unparsed_line
 
 This method buffers the unparsed lines that contain a C<\> at the end,
 and calls its parent class version to deal with the others.
 
+=head2 finalize
+
+When the last line has been read and processed, and the buffer is not
+empty, this means the last line had a C</> at the end, which is
+considered a syntax error.
+
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Vincent Pit for help (on IRC, of course!) in finding a
 descriptive but not too long name for this module.
+
+Thanks to Steve Rogerson for finding out that continuations followed by
+an ignorable line were broken, which led to significant code simplication.
 
 =head1 AUTHOR
 
@@ -121,7 +133,7 @@ who needed to read F<act.ini> files without L<AppConfig>.
 
 =head1 COPYRIGHT
 
-Copyright 2014-2015 Philippe Bruhat (BooK), all rights reserved.
+Copyright 2014-2026 Philippe Bruhat (BooK), all rights reserved.
 
 =head1 LICENSE
 

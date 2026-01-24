@@ -4,7 +4,7 @@ Revision history for Config-INI-Reader-Multiline
 
 1.002 2026-01-24 BOOK
     - Ignore blank lines/comments in continuation lines (Steve Rogerson)
-      (Fixes GH #3)
+      (Closes GH #2, GH #3)
     - Simplify handling of continuations, to make them more broadly
       applicable. Continutation on the last line is now a syntax error
     - Added more tests, updated documentation

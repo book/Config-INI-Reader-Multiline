@@ -31,6 +31,7 @@ my %test = (
         'section2' => {
             'name3' => 'value3',
         },
+        section3 => {},
     },
     't/weird_continuations.ini' => {
         'flrbbbbb thunk' => {

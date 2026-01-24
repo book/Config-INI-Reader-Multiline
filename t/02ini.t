@@ -32,6 +32,11 @@ my %test = (
             'name3' => 'value3',
         },
     },
+    't/weird_continuations.ini' => {
+        'flrbbbbb thunk' => {
+	     whap => 'z_zwap   glipp',
+        },
+    }
 );
 
 plan tests => scalar keys %test;

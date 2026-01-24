@@ -6,49 +6,40 @@ use warnings;
 use Config::INI::Reader 0.024;
 our @ISA = qw( Config::INI::Reader );
 
+# preprend the buffer if any
+sub preprocess_line {
+    my ( $self, $line ) = @_;
+    $$line = delete( $self->{__buffer} ) . $$line
+      if exists $self->{__buffer} && $$line =~ s/^\s*//;
+    return $self->SUPER::preprocess_line($line);
+}
+
 sub parse_value_assignment {
     my ( $self, $line ) = @_;
-    return if $line =~ /\s*\\\s*\z/;
-    $line = delete( $self->{__buffer} ) . $line
-        if exists $self->{__buffer} && $line =~ s/^\s*//;
+    return if $line =~ /\s*\\\s*\z/;   # handle_unparsed_line does continuations
     return $self->SUPER::parse_value_assignment($line);
 }
 
 sub handle_unparsed_line {
-    my ( $self, $line, $handle ) = @_; # order changed in CIR 0.024
-    return $self->{__buffer} .= "$line "
-        if $line =~ s/\s*\\\s*\z// && $line =~ s/\A\s*//;
+    my ( $self, $line, $handle ) = @_;    # order changed in CIR 0.024
+    return $self->{__buffer} .= "$line "  # buffer continuations
+      if $line =~ s/\s*\\\s*\z// && $line =~ s/\A\s*//;
     return $self->SUPER::handle_unparsed_line( $line, $handle );
-}
-
-
-sub can_ignore {
-    my ( $self, $line, $handle ) = @_;
-    if ( $line =~ /\A\s*(?:;|$)/ ) {
-
-        # If there is stuff left in buffer we need to see if it's name value pair.
-        if ( exists $self->{__buffer} ) {
-            if ( my ( $name, $value ) = $self->parse_value_assignment('') ) {
-                $self->set_value( $name, $value );
-            }
-        }
-        return 1;
-    }
-    return 0;
-
 }
 
 sub finalize {
     my ($self) = @_;
-    return if !$self->{__buffer};
 
-    # If there is stuff left in buffer we need to see if it's name value pair.
-    if ( my ( $name, $value ) = $self->parse_value_assignment('') ) {
-        $self->set_value( $name, $value );
+    # if there's stuff in the buffer,
+    # we had a continuation on the last line
+    if ( exists $self->{__buffer} ) {
+        my $line = delete $self->{__buffer};
+        Carp::croak "Continuation on the last line: '$line\\'";
     }
 
+    return $self->SUPER::finalize;
 }
-  
+
 1;
 
 __END__

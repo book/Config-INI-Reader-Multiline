@@ -12,14 +12,31 @@ my @fail = (    # input, expected error, message
     ],
     [
         <<~ 'INI',
-        [ flrbbbbb\
-          thunk]
-        whap = z_zwap   glipp
+        [plop]
+        glurpp = splatt \
         INI
-        qr/Syntax error at line 2: '  thunk]\n'/i,
-        'no continuation in section headers',
+        qr/Continuation on the last line: 'glurpp = splatt \\'/i,
+        'no continuation on the last line (value)',
     ],
+    [
+        <<~ 'INI',
+        [z_zwap]
+        crash = zwapp
 
+        [ker_plop] \
+        INI
+        qr/Continuation on the last line: '\[ker_plop\] \\'/i,
+        'no continuation on the last line (section)',
+    ],
+    [
+        <<~ 'INI',
+        [z_zwap]
+        crash = zwapp
+           \
+        INI
+        qr/Continuation on the last line: ' \\'/i,
+        'no continuation on the last line (empty line)',
+    ],
 );
 
 for my $test (@fail) {

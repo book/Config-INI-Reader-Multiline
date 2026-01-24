@@ -22,6 +22,15 @@ my %test = (
             zapeth => 'eee_yow',
         },
     },
+    't/comment.ini' => {
+        'section1' => {
+            'name1' => 'value1 extravalue1',
+            'name2' => 'value2',
+        },
+        'section2' => {
+            'name3' => 'value3',
+        },
+    },
 );
 
 plan tests => scalar keys %test;
